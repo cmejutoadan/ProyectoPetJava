@@ -34,7 +34,7 @@ public class Usuario extends javax.swing.JFrame {
     public Usuario(String user, Principal principal) throws SQLException {
         this.principal = principal; 
         this.user = user;
-        mm = new ModeloMascota(5); //ojo!! instanciamos el objeto dentro del constructor
+        mm = new ModeloMascota(5); //ojo!! instanciamos el objeto dentro del constructor mandando el número de columnas de la tabla
         //System.out.println(user); //comprobamos si recibe el usuario
         initComponents();
         setLocationRelativeTo(null); //para centrar la ventana
@@ -101,6 +101,7 @@ public class Usuario extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(32767, 0));
         jButton4 = new javax.swing.JButton();
 
+        setTitle("Usario");
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 formComponentHidden(evt);
@@ -347,12 +348,16 @@ public class Usuario extends javax.swing.JFrame {
     }//GEN-LAST:event_bactualizarActionPerformed
 
     private void tprovinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tprovinciaActionPerformed
-        // 
+        //campo provincia
 
     }//GEN-LAST:event_tprovinciaActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        //borramos mascota
+        //tenemos un objeto jTableMascota que es el que contiene el modelo. 
+        int codigoEliminar = (int) mm.getValueAt(jTableMascota.getSelectedRow(), 0);//en el modelo cogemos el valor de la fila activa de la tabla, en la posición 0 que es el código
+        //llamamos al método del modelo que elimina una línea y actualiza la bd
+        mm.eliminar(codigoEliminar);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -423,6 +428,8 @@ public class Usuario extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bactualizar;

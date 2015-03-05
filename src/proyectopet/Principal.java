@@ -50,6 +50,7 @@ public class Principal extends javax.swing.JFrame {
         textPass = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PetFinder");
         setBounds(new java.awt.Rectangle(250, 50, 600, 400));
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));

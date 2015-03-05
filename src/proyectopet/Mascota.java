@@ -59,6 +59,7 @@ public class Mascota extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        setTitle("Mascota");
         setPreferredSize(new java.awt.Dimension(470, 260));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
@@ -227,7 +228,7 @@ public class Mascota extends javax.swing.JFrame {
             System.out.println("registro añadido a la bd");
             // lanzamos un aviso
             JOptionPane.showMessageDialog(null, "Registro realizado", "", JOptionPane.INFORMATION_MESSAGE);
-         
+            
         } catch (SQLException ex) {
             Logger.getLogger(Mascota.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -241,7 +242,7 @@ public class Mascota extends javax.swing.JFrame {
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
         //ocultamos la pantalla y activamos la anterior
         usuario.setVisible(true);
-        usuario.mm.refrescar();
+        usuario.mm.refrescarTabla();
     }//GEN-LAST:event_formComponentHidden
 
     /**

@@ -68,6 +68,7 @@ public class Registro extends javax.swing.JFrame {
         textPass2 = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
 
+        setTitle("Registro");
         setPreferredSize(new java.awt.Dimension(500, 400));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {

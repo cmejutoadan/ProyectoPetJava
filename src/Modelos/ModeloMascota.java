@@ -40,27 +40,7 @@ public class ModeloMascota extends AbstractTableModel {
         amascota = new ArrayList();
         cbd = new ConectaBD();   
         //llamamos a refrescar por si hay datos en la tabla
-        refrescar();
-    }
-
-    public void refrescar() { //very important - se ejecuta al hacer una modificación. 
- 
-        try {
-            stm = cbd.getConn().createStatement();
-            rs = stm.executeQuery("select * from mascota where usuario = '" + usuario + "'");
-            amascota.clear();
-            while (rs.next()) {
-                // ojo con la instanciación del objeto
-                amascota.add(new Pet(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6)));
-            }
-            fireTableDataChanged();//internamente método del abstracttablemodel que comprueba si los datos cambian y redibuja la tabla
-            rs.close();
-            stm.close();
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+        refrescarTabla();
     }
     
         public void refrescarTabla() { //very important - se ejecuta al hacer una modificación. 
@@ -81,6 +61,14 @@ public class ModeloMascota extends AbstractTableModel {
             System.out.println(ex.getMessage());
         }
     }
+        //método para eliminar una mascota de la tala pasándole el id de la mascota
+        public void eliminar (int codigo) throws SQLException{
+            stm = cbd.getConn().createStatement();
+            stm.executeUpdate("delete from mascota where idmascota =" + codigo);
+            stm.close();
+            refrescarTabla(); 
+    
+        }
 
     @Override
     public int getRowCount() {
@@ -108,6 +96,7 @@ public class ModeloMascota extends AbstractTableModel {
            return amascota.get(rowIndex).getIdU();
         }
     }
+    
 
     //método para dar nombre a las columnas
     @Override
@@ -125,5 +114,15 @@ public class ModeloMascota extends AbstractTableModel {
         } else {
             return "USUARIO";
         }
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if(columnIndex == 0){
+        return false; //To change body of generated methods, choose Tools | Templates.
+    } else {
+            return true; 
+        }
+    
     }
 }
