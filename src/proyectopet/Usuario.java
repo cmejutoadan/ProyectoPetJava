@@ -53,7 +53,7 @@ public class Usuario extends javax.swing.JFrame {
 //    }
     public void recuperaRegistro() throws SQLException {
         Statement stm = c.createStatement();
-        ResultSet rs = stm.executeQuery("select * from usuario where user = '" + user + "'");
+        ResultSet rs = stm.executeQuery("select * from usuario where usu = '" + user + "'");
         while (rs.next()) {
             usuario = new User(rs.getInt(1), rs.getString(2), rs.getInt(3),
                     rs.getString(4), rs.getString(5), rs.getString(6),
@@ -332,7 +332,7 @@ public class Usuario extends javax.swing.JFrame {
             s.executeUpdate("update usuario set unombre = '" + tnombre.getText() + "', "
                     + "tlf = " + ttlf.getText() + ",mail = '" + tmail.getText() + "', "
                     + "direccion = '" + tdirecc.getText() + "', "
-                    + "provincia = '" + tprovincia.getText() + "' where user = '" + user + "'");
+                    + "provincia = '" + tprovincia.getText() + "' where usu = '" + user + "'");
 
             //lanzamos un mensaje de respuesta
             JOptionPane.showMessageDialog(null, "Los campos han sido actualizados", "Actualización de datos", JOptionPane.INFORMATION_MESSAGE);
@@ -356,8 +356,12 @@ public class Usuario extends javax.swing.JFrame {
         //borramos mascota
         //tenemos un objeto jTableMascota que es el que contiene el modelo. 
         int codigoEliminar = (int) mm.getValueAt(jTableMascota.getSelectedRow(), 0);//en el modelo cogemos el valor de la fila activa de la tabla, en la posición 0 que es el código
-        //llamamos al método del modelo que elimina una línea y actualiza la bd
-        mm.eliminar(codigoEliminar);
+        try {
+            //llamamos al método del modelo que elimina una línea y actualiza la bd
+            mm.eliminar(codigoEliminar);
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -397,37 +401,37 @@ public class Usuario extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                // new Usuario().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Windows".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                // new Usuario().setVisible(true);
+//            }
+//        });
+//    }
     
     
 

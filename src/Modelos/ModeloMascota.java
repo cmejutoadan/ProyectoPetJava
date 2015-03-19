@@ -22,11 +22,10 @@ public class ModeloMascota extends AbstractTableModel {
     private int ncolum;
     //declaramos un arrayList para guardar los animales
     ArrayList<Pet> amascota;
-    
-    
-    public ModeloMascota(int ncolum) throws SQLException{ //este contructor lo utilizamos para el panel de administrador
+
+    public ModeloMascota(int ncolum) throws SQLException { //este contructor lo utilizamos para el panel de administrador
         cbd = new ConectaBD();//conecto la base de datos
-        this.ncolum = ncolum; 
+        this.ncolum = ncolum;
         //inicializamos el arraylist
         amascota = new ArrayList();
         //llamamos a refrescarTabla que actualiza los datos
@@ -38,12 +37,12 @@ public class ModeloMascota extends AbstractTableModel {
         this.ncolum = ncolum;
         //dentro del constructor inicializamos los objetos
         amascota = new ArrayList();
-        cbd = new ConectaBD();   
+        cbd = new ConectaBD();
         //llamamos a refrescar por si hay datos en la tabla
         refrescarTabla();
     }
-    
-        public void refrescarTabla() { //very important - se ejecuta al hacer una modificación. 
+
+    public void refrescarTabla() { //very important - se ejecuta al hacer una modificación. 
         try {
             stm = cbd.getConn().createStatement();
             rs = stm.executeQuery("select * from mascota");
@@ -61,14 +60,16 @@ public class ModeloMascota extends AbstractTableModel {
             System.out.println(ex.getMessage());
         }
     }
-        //método para eliminar una mascota de la tala pasándole el id de la mascota
-        public void eliminar (int codigo) throws SQLException{
-            stm = cbd.getConn().createStatement();
-            stm.executeUpdate("delete from mascota where idmascota =" + codigo);
-            stm.close();
-            refrescarTabla(); 
-    
-        }
+
+    //método para eliminar una mascota de la tala pasándole el id de la mascota
+
+    public void eliminar(int codigo) throws SQLException {
+        stm = cbd.getConn().createStatement();
+        stm.executeUpdate("delete from mascota where idmascota =" + codigo);
+        stm.close();
+        refrescarTabla();
+
+    }
 
     @Override
     public int getRowCount() {
@@ -90,13 +91,12 @@ public class ModeloMascota extends AbstractTableModel {
             return amascota.get(rowIndex).getChip();
         } else if (columnIndex == 3) {
             return amascota.get(rowIndex).getEspecie();
-        } else if (columnIndex == 4){
-             return amascota.get(rowIndex).getRaza();
+        } else if (columnIndex == 4) {
+            return amascota.get(rowIndex).getRaza();
         } else {
-           return amascota.get(rowIndex).getIdU();
+            return amascota.get(rowIndex).getIdU();
         }
     }
-    
 
     //método para dar nombre a las columnas
     @Override
@@ -118,11 +118,11 @@ public class ModeloMascota extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex == 0){
-        return false; //To change body of generated methods, choose Tools | Templates.
-    } else {
-            return true; 
+        if (columnIndex == 0) {
+            return false; //To change body of generated methods, choose Tools | Templates.
+        } else {
+            return true;
         }
-    
+
     }
 }

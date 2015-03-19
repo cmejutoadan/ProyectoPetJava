@@ -6,14 +6,22 @@
 package proyectopet;
 
 import Conexion.ConectaBD;
-import Modelos.ModeloMascota;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.imgscalr.Scalr;
 
 /**
  *
@@ -24,6 +32,10 @@ public class Mascota extends javax.swing.JFrame {
     String user;
     Connection c;
     Usuario usuario;
+    FileInputStream fis;
+    int longitudBytes;
+    File foto;
+    //SeleccionaArchivo sa;
 
     /**
      * Creates new form Mascota
@@ -31,9 +43,11 @@ public class Mascota extends javax.swing.JFrame {
     public Mascota(String user, Usuario usuario) throws SQLException {
         this.user = user;
         this.usuario = usuario;
+
         c = new ConectaBD().getConn();
         initComponents();
         setLocationRelativeTo(null); //para cntrar la ventana
+        //sa = new SeleccionaArchivo();
     }
 
     /**
@@ -57,6 +71,7 @@ public class Mascota extends javax.swing.JFrame {
         tchip = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jicono = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
         setTitle("Mascota");
@@ -81,7 +96,7 @@ public class Mascota extends javax.swing.JFrame {
         jLabel3.setText("Especie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 10, 0, 30);
         jPanel1.add(jLabel3, gridBagConstraints);
@@ -89,7 +104,7 @@ public class Mascota extends javax.swing.JFrame {
         jLabel4.setText("Raza");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 10, 0, 30);
         jPanel1.add(jLabel4, gridBagConstraints);
@@ -97,7 +112,7 @@ public class Mascota extends javax.swing.JFrame {
         jLabel5.setText("Código chip");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 10, 0, 30);
         jPanel1.add(jLabel5, gridBagConstraints);
@@ -124,7 +139,7 @@ public class Mascota extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 53;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -137,14 +152,14 @@ public class Mascota extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 53;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel1.add(traza, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 53;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -160,8 +175,17 @@ public class Mascota extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         jPanel1.add(jPanel2, gridBagConstraints);
+
+        jicono.setIcon(new javax.swing.ImageIcon("C:\\Users\\cmejuto\\Documents\\WorkSpace\\Programacion\\ProyectoPet\\imagenes\\icono.jpg")); // NOI18N
+        jicono.setMaximumSize(new java.awt.Dimension(90, 90));
+        jicono.setMinimumSize(new java.awt.Dimension(90, 90));
+        jicono.setPreferredSize(new java.awt.Dimension(90, 90));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        jPanel1.add(jicono, gridBagConstraints);
 
         jButton2.setText("Guardar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +200,7 @@ public class Mascota extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(186, 186, 186)
                 .addComponent(jButton2)
@@ -195,7 +219,39 @@ public class Mascota extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // botón que selecciona una fotografía de nuestro equipo
+        //http://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html
+        JFileChooser fc = new JFileChooser(); //creamos objeto JFileChooser
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);// le decimos que sólo puede seleccionar ficheros, no directorios
+        int estado = fc.showOpenDialog(this);
+        //si el botón seleccionado es el de aceptar
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            try {
+                fis = new FileInputStream(fc.getSelectedFile()); //foto en flujo
+                longitudBytes = (int) fc.getSelectedFile().length();// tamaño de la foto
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Mascota.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            foto = fc.getSelectedFile(); //guardo la foto en un objeto tipo File
+            
+            //escalamos la foto
+            //para escalar tenemos que importar la siguiente librería http://www.thebuzzmedia.com/software/imgscalr-java-image-scaling-library/#download
+            File smallfoto = new File(foto.getPath());
+            try {
+                BufferedImage bfoto = ImageIO.read(foto);
+                BufferedImage bsmallfoto = Scalr.resize(bfoto, 80);
+                ImageIO.write(bsmallfoto, "png", smallfoto);
+            } catch (IOException ex) {
+                Logger.getLogger(Mascota.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //mostramos la foto
+            ImageIcon icono = new ImageIcon(smallfoto.getPath());
+            jicono.setIcon(icono);
+                       
+        } else {
+            System.out.println("operación cancelada por el usuario");
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tnombreActionPerformed
@@ -211,32 +267,40 @@ public class Mascota extends javax.swing.JFrame {
     }//GEN-LAST:event_trazaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // guardamos los campos en la bd
+        
+// guardamos los campos en la bd
         String nombre = tnombre.getText();
         String especie = tespecie.getText();
         String raza = traza.getText();
         String chip = tchip.getText();
+
         System.out.println("nombre: " + nombre + " especie: " + especie + " raza: " + raza + " chip: " + chip + " usuario: " + user);
 
+        // comprobamos si los campos obligatorios están cubiertos 
+        if (nombre.equals("") || especie.equals("")){
+            JOptionPane.showMessageDialog(null, "Complete los campos obligatorios", "", JOptionPane.WARNING_MESSAGE);
+        } else {
         try {
             Statement stm = c.createStatement();
-            System.out.println("statement creado");
-            stm.executeUpdate("insert into mascota "
-                    + "(mnombre, chip, especie, raza, usuario) values "
-                    + "('" + nombre + "','" + chip + "','" + especie
-                    + "','" + raza + "','" + user + "')");
-            System.out.println("registro añadido a la bd");
-            // lanzamos un aviso
-            JOptionPane.showMessageDialog(null, "Registro realizado", "", JOptionPane.INFORMATION_MESSAGE);
-            
+            PreparedStatement ps = c.prepareStatement("insert into mascota (mnombre, chip, especie, raza, usuario, foto) values (?,?,?,?,?,?)");
+
+            ps.setString(1, nombre);
+            ps.setString(2, chip);
+            ps.setString(3, especie);
+            ps.setString(4, raza);
+            ps.setString(5, user);
+            ps.setBinaryStream(6, fis, longitudBytes); // posición, flujo, tamaño
+            ps.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(Mascota.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        //limpiamos los campos
         tnombre.setText("");
         tespecie.setText("");
         traza.setText("");
         tchip.setText("");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
@@ -248,37 +312,38 @@ public class Mascota extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Windows".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Mascota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                //              new Mascota().setVisible(true);
+//            }
+//        });
+//    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                //              new Mascota().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -289,9 +354,13 @@ public class Mascota extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jicono;
     private javax.swing.JTextField tchip;
     private javax.swing.JTextField tespecie;
     private javax.swing.JTextField tnombre;
     private javax.swing.JTextField traza;
     // End of variables declaration//GEN-END:variables
+
+
+
 }

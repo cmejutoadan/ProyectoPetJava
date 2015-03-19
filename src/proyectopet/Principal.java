@@ -166,9 +166,12 @@ public class Principal extends javax.swing.JFrame {
         try {
 
             Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery("select pass from usuario where user = '" + textUser.getText() + "'");
+            s.executeQuery("select pass from usuario where usu = '" + textUser.getText() + "'");
+            ResultSet rs = s.getResultSet();
+            
+            rs.next();
 
-            if (rs.first() && textPass.getText().equals(rs.getString(1))) {
+            if (textPass.getText().equals(rs.getString(1))) {
 
                 System.out.println("LOG: usuario existe");
                 Usuario usuario = new Usuario(user, this);

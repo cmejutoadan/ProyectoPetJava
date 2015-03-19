@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Mar 19 08:44:14 CET 2015:
+ Arrancando Derby versión The Apache Software Foundation - Apache Derby - 10.8.3.0 - (1405108): instancia a816c00e-014c-30fd-5f63-000000ca6ce0 
+en el directorio de base de datos C:\Users\cmejuto\Documents\WorkSpace\Programacion\ProyectoPet\petfinder  con el cargador de clases sun.misc.Launcher$AppClassLoader@1a7bf11
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_40-b43
+user.dir=C:\Users\cmejuto\Documents\WorkSpace\Programacion\ProyectoPet
+os.name=Windows 7
+os.arch=x86
+os.version=6.1
+derby.system.home=null
+Cargador de clases de base de datos iniciado - derby.database.classpath=''

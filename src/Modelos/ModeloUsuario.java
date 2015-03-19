@@ -38,14 +38,6 @@ public class ModeloUsuario extends AbstractTableModel {
             rs = stm.executeQuery("select * from usuario");
             aUser.clear();
             while (rs.next()) {
-                /*int id, 
-                 String unombre, 
-                 int tlf, 
-                 String direccion, 
-                 String provincia, 
-                 String user, 
-                 String pass*/
-
                 // ojo con la instanciación del objeto de la clase User
                 aUser.add(new User(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
             }
@@ -55,6 +47,13 @@ public class ModeloUsuario extends AbstractTableModel {
 
         } catch (SQLException ex) {
         }
+    }
+
+    public void eliminar(int usuario) throws SQLException {
+        stm = cbd.getConn().createStatement();
+        stm.executeUpdate("delete from usuario where idusu = " + usuario);
+        stm.close();
+        refrescarDatos();
     }
 
     @Override
@@ -111,5 +110,13 @@ public class ModeloUsuario extends AbstractTableModel {
 
         }
     }
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (columnIndex == 0) {
+            return false; //To change body of generated methods, choose Tools | Templates.
+        } else {
+            return true;
+        }
 
+    }
 }
